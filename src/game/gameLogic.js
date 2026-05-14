@@ -1,6 +1,6 @@
 import { CARD_PAIRS } from '../data/cardsData.js'
 
-const DEFAULT_PAIR_COUNT = 5
+const DEFAULT_PAIR_COUNT = 6
 const DEFAULT_MAX_MISTAKES = 5
 
 export function shuffleArray(array, random = Math.random) {

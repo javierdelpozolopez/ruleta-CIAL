@@ -303,15 +303,16 @@ h2 {
 
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(112px, 1fr));
+  grid-template-columns: repeat(6, minmax(112px, 1fr));
   gap: clamp(8px, 1.6vw, 18px);
+  align-items: stretch;
 }
 
 .memory-card {
   display: block;
   width: 100%;
   min-width: 0;
-  aspect-ratio: 0.76;
+  aspect-ratio: 4 / 3;
   padding: 0;
   border: 0;
   background: transparent;
@@ -323,6 +324,7 @@ h2 {
   display: block;
   width: 100%;
   height: 100%;
+  min-height: 100%;
   transform-style: preserve-3d;
   transition: transform 420ms cubic-bezier(0.2, 0.82, 0.2, 1);
 }
@@ -353,18 +355,23 @@ h2 {
   content: '';
   position: absolute;
   inset: 0;
-  opacity: 0.5;
-  background-image: url('../assets/images/trama-cial-bold.svg');
-  background-repeat: repeat;
-  background-size: 150px auto;
-  background-position: center;
+  opacity: 0.46;
+  background-color: white;
+  mask-image: url('../assets/images/trama-cial-bold.svg');
+  mask-repeat: repeat;
+  mask-size: 118px auto;
+  mask-position: center;
+  -webkit-mask-image: url('../assets/images/trama-cial-bold.svg');
+  -webkit-mask-repeat: repeat;
+  -webkit-mask-size: 118px auto;
+  -webkit-mask-position: center;
 }
 
 .card-back::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 48%, color-mix(in oklch, var(--card-back), black 10%) 0 18%, transparent 56%);
+  background: radial-gradient(circle at 50% 48%, color-mix(in oklch, var(--card-back), black 8%) 0 12%, transparent 44%);
 }
 
 .card-logo {
@@ -500,7 +507,7 @@ h2 {
   }
 
   .cards-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .score-strip,

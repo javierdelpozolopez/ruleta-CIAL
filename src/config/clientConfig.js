@@ -6,7 +6,7 @@ export const DEFAULT_CLIENT_CONFIG = {
   gameTitle: 'memorice de inocuidad alimentaria',
   intro:
     'Encuentra los pares conectados por concepto: palabra con definición, práctica con significado o imagen con idea clave.',
-  rules: ['10 tarjetas por partida', '5 pares al azar', 'máximo 3 fallos'],
+  rules: ['12 tarjetas por partida', '6 pares al azar', 'máximo 5 fallos'],
   theme: {
     primary: '#00843D',
     primaryDark: '#046A38',
@@ -41,6 +41,7 @@ export function loadClientConfig() {
     return {
       ...DEFAULT_CLIENT_CONFIG,
       ...parsed,
+      rules: DEFAULT_CLIENT_CONFIG.rules,
       theme: { ...DEFAULT_CLIENT_CONFIG.theme, ...parsed.theme },
       cardStyle: { ...DEFAULT_CLIENT_CONFIG.cardStyle, ...parsed.cardStyle },
       logo: parsed.logo || DEFAULT_CLIENT_CONFIG.logo,
