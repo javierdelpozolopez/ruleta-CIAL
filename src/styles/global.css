@@ -85,8 +85,7 @@ button {
 .brand-lockup {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-md);
-  padding: var(--space-sm) var(--space-md);
+  padding: var(--space-sm);
   background: color-mix(in oklch, var(--surface), transparent 10%);
   color: var(--primary-dark);
   border-radius: 999px;
@@ -95,10 +94,10 @@ button {
 }
 
 .brand-lockup img {
-  width: 42px;
-  height: 42px;
+  width: 54px;
+  height: 54px;
   object-fit: contain;
-  border-radius: 12px 3px 12px 3px;
+  border-radius: 14px;
 }
 
 .header-actions,
@@ -349,9 +348,12 @@ h2 {
   color: white;
 }
 
-.brand-mark {
-  font-size: clamp(1.15rem, 3vw, 2.1rem);
-  font-weight: 900;
+.card-logo {
+  width: min(58%, 92px);
+  height: auto;
+  object-fit: contain;
+  border-radius: 18px;
+  filter: drop-shadow(0 10px 20px rgba(0, 55, 28, 0.22));
 }
 
 .card-front {
@@ -487,10 +489,6 @@ h2 {
   .app-shell,
   .header-bar {
     width: min(100% - 20px, 1120px);
-  }
-
-  .brand-lockup span {
-    display: none;
   }
 
   .score-strip div,

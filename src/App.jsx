@@ -9,7 +9,7 @@ import HeaderBar from './components/HeaderBar.jsx'
 import AdminPanel from './components/AdminPanel.jsx'
 
 const EVALUATION_DELAY = 780
-const MEMORIZE_DELAY = 4200
+const MEMORIZE_DELAY = 8000
 
 function applyTheme(config) {
   const root = document.documentElement

@@ -1,3 +1,5 @@
+import logoCial from '../assets/images/logo-cial.jpg'
+
 const KIND_LABELS = {
   word: 'concepto',
   definition: 'definición',
@@ -23,7 +25,7 @@ export default function Card({ card, failed, onSelect }) {
     >
       <span className="card-inner">
         <span className="card-face card-back" aria-hidden="true">
-          <span className="brand-mark">CiAL</span>
+          <img className="card-logo" src={logoCial} alt="" />
         </span>
         <span className="card-face card-front">
           <span className="card-kind">{KIND_LABELS[card.kind] || card.kind}</span>
