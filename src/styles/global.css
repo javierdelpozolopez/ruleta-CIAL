@@ -308,6 +308,8 @@ h2 {
 }
 
 .memory-card {
+  display: block;
+  width: 100%;
   min-width: 0;
   aspect-ratio: 0.76;
   padding: 0;
@@ -350,10 +352,11 @@ h2 {
 .card-back::before {
   content: '';
   position: absolute;
-  inset: -8%;
-  opacity: 0.42;
-  background-image: url("data:image/svg+xml,%3Csvg width='72' height='72' viewBox='0 0 72 72' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.92)' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M10 4v20c0 8-5 13-13 13'/%3E%3Cpath d='M24 4v20c0 8-5 13-13 13'/%3E%3Cpath d='M58 4v20c0 8-5 13-13 13'/%3E%3Cpath d='M72 4v20c0 8-5 13-13 13'/%3E%3Cpath d='M34 68V48c0-8 5-13 13-13'/%3E%3Cpath d='M48 68V48c0-8 5-13 13-13'/%3E%3Cpath d='M10 40v20c0 8-5 13-13 13'/%3E%3Cpath d='M24 40v20c0 8-5 13-13 13'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 54px 54px;
+  inset: 0;
+  opacity: 0.5;
+  background-image: url('../assets/images/trama-cial-bold.svg');
+  background-repeat: repeat;
+  background-size: 150px auto;
   background-position: center;
 }
 
