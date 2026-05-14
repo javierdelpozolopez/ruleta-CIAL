@@ -335,20 +335,38 @@ h2 {
   display: grid;
   place-items: center;
   padding: clamp(10px, 2vw, 20px);
-  border-radius: var(--card-radius);
+  border-radius: var(--card-radius) 5px var(--card-radius) 5px;
   backface-visibility: hidden;
   box-shadow: var(--card-shadow);
 }
 
 .card-back {
+  position: relative;
   overflow: hidden;
-  background:
-    repeating-linear-gradient(135deg, transparent 0 18px, color-mix(in oklch, white, transparent 88%) 18px 21px),
-    var(--card-back);
+  background: var(--card-back);
   color: white;
 }
 
+.card-back::before {
+  content: '';
+  position: absolute;
+  inset: -8%;
+  opacity: 0.42;
+  background-image: url("data:image/svg+xml,%3Csvg width='72' height='72' viewBox='0 0 72 72' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.92)' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M10 4v20c0 8-5 13-13 13'/%3E%3Cpath d='M24 4v20c0 8-5 13-13 13'/%3E%3Cpath d='M58 4v20c0 8-5 13-13 13'/%3E%3Cpath d='M72 4v20c0 8-5 13-13 13'/%3E%3Cpath d='M34 68V48c0-8 5-13 13-13'/%3E%3Cpath d='M48 68V48c0-8 5-13 13-13'/%3E%3Cpath d='M10 40v20c0 8-5 13-13 13'/%3E%3Cpath d='M24 40v20c0 8-5 13-13 13'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 54px 54px;
+  background-position: center;
+}
+
+.card-back::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 48%, color-mix(in oklch, var(--card-back), black 10%) 0 18%, transparent 56%);
+}
+
 .card-logo {
+  position: relative;
+  z-index: 1;
   width: min(58%, 92px);
   height: auto;
   object-fit: contain;
