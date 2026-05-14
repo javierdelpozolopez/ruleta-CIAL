@@ -7,7 +7,7 @@ function formatTime(seconds) {
   return `${minutes}:${String(rest).padStart(2, '0')}`
 }
 
-export default function GameBoard({ cards, elapsed, mistakes, maxMistakes, pairsFound, totalPairs, recentFailIds, onCardSelect }) {
+export default function GameBoard({ cards, elapsed, mistakes, maxMistakes, pairsFound, totalPairs, memorizing, recentFailIds, onCardSelect }) {
   return (
     <section className="game-screen" aria-label="tablero de memorice">
       <div className="score-strip">
@@ -20,8 +20,8 @@ export default function GameBoard({ cards, elapsed, mistakes, maxMistakes, pairs
           <strong>{pairsFound}/{totalPairs}</strong>
         </div>
         <div>
-          <span>tiempo</span>
-          <strong>{formatTime(elapsed)}</strong>
+          <span>{memorizing ? 'memoriza' : 'tiempo'}</span>
+          <strong>{memorizing ? '...' : formatTime(elapsed)}</strong>
         </div>
       </div>
       <ProgressBar value={pairsFound} max={totalPairs} />

@@ -75,7 +75,6 @@ button {
   gap: var(--space-lg);
 }
 
-.brand-lockup,
 .icon-button,
 .primary-button,
 .secondary-button {
@@ -222,7 +221,7 @@ h2 {
   place-items: center;
   width: clamp(148px, 22vw, 240px);
   aspect-ratio: 0.72;
-  border-radius: 42px 8px 42px 8px;
+  border-radius: 30px;
   color: white;
   font-family: 'Titan One', Inter, sans-serif;
   font-size: clamp(2.2rem, 5vw, 4.2rem);
@@ -253,19 +252,19 @@ h2 {
 
 .game-screen {
   display: grid;
-  gap: var(--space-lg);
+  gap: var(--space-md);
 }
 
 .score-strip {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-md);
+  gap: var(--space-sm);
 }
 
 .score-strip div,
 .result-stats div {
-  padding: var(--space-lg);
-  border-radius: 16px 4px 16px 4px;
+  padding: var(--space-md);
+  border-radius: 12px;
   background: color-mix(in oklch, var(--surface), transparent 6%);
   box-shadow: 0 10px 30px rgba(8, 82, 44, 0.08);
 }
@@ -274,7 +273,7 @@ h2 {
 .result-stats span {
   display: block;
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.72rem;
   font-weight: 700;
 }
 
@@ -284,7 +283,7 @@ h2 {
   margin-top: var(--space-xs);
   color: var(--primary-dark);
   font-family: 'Titan One', Inter, sans-serif;
-  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-size: clamp(1.18rem, 3vw, 1.85rem);
   line-height: 1;
 }
 
@@ -337,7 +336,7 @@ h2 {
   display: grid;
   place-items: center;
   padding: clamp(10px, 2vw, 20px);
-  border-radius: var(--card-radius) 5px var(--card-radius) 5px;
+  border-radius: var(--card-radius);
   backface-visibility: hidden;
   box-shadow: var(--card-shadow);
 }

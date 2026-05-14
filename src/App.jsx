@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createNewGame } from './game/gameLogic.js'
 import { useSound } from './hooks/useSound.js'
 import { DEFAULT_CLIENT_CONFIG, loadClientConfig, resetClientConfig, saveClientConfig } from './config/clientConfig.js'
@@ -9,6 +9,7 @@ import HeaderBar from './components/HeaderBar.jsx'
 import AdminPanel from './components/AdminPanel.jsx'
 
 const EVALUATION_DELAY = 780
+const MEMORIZE_DELAY = 4200
 
 function applyTheme(config) {
   const root = document.documentElement
@@ -24,31 +25,59 @@ export default function App() {
   const [screen, setScreen] = useState('start')
   const [game, setGame] = useState(() => createNewGame())
   const [locked, setLocked] = useState(false)
+  const [memorizing, setMemorizing] = useState(false)
   const [recentFailIds, setRecentFailIds] = useState([])
   const [elapsed, setElapsed] = useState(0)
-  const [adminOpen, setAdminOpen] = useState(false)
+  const [adminOpen, setAdminOpen] = useState(() => new URLSearchParams(window.location.search).get('admin') === '1')
   const [config, setConfig] = useState(loadClientConfig)
+  const memorizeTimeoutRef = useRef(null)
   const sound = useSound()
 
   useEffect(() => applyTheme(config), [config])
 
   useEffect(() => {
     if (screen !== 'game' || game.status !== 'playing') return undefined
+    if (memorizing) return undefined
     const timer = window.setInterval(() => {
       setElapsed(Math.floor((Date.now() - game.startedAt) / 1000))
     }, 1000)
     return () => window.clearInterval(timer)
-  }, [game.startedAt, game.status, screen])
+  }, [game.startedAt, game.status, memorizing, screen])
+
+  useEffect(
+    () => () => {
+      if (memorizeTimeoutRef.current) window.clearTimeout(memorizeTimeoutRef.current)
+    },
+    [],
+  )
 
   const pairsFound = game.matchedPairIds.length
 
   const startGame = () => {
     const nextGame = createNewGame()
-    setGame(nextGame)
+    const previewGame = {
+      ...nextGame,
+      deck: nextGame.deck.map((card) => ({ ...card, isFlipped: true })),
+      startedAt: Date.now() + MEMORIZE_DELAY,
+    }
+    if (memorizeTimeoutRef.current) window.clearTimeout(memorizeTimeoutRef.current)
+    setGame(previewGame)
     setElapsed(0)
     setRecentFailIds([])
-    setLocked(false)
+    setLocked(true)
+    setMemorizing(true)
     setScreen('game')
+
+    memorizeTimeoutRef.current = window.setTimeout(() => {
+      setGame((currentGame) => ({
+        ...currentGame,
+        deck: currentGame.deck.map((card) => ({ ...card, isFlipped: false })),
+        startedAt: Date.now(),
+      }))
+      setLocked(false)
+      setMemorizing(false)
+      memorizeTimeoutRef.current = null
+    }, MEMORIZE_DELAY)
   }
 
   const finishGame = (nextGame, status) => {
@@ -128,7 +157,6 @@ export default function App() {
         config={config}
         soundEnabled={sound.enabled}
         onToggleSound={sound.toggleSound}
-        onOpenAdmin={() => setAdminOpen(true)}
       />
 
       <main className="app-shell">
@@ -141,6 +169,7 @@ export default function App() {
             maxMistakes={game.maxMistakes}
             pairsFound={pairsFound}
             totalPairs={game.selectedPairs.length}
+            memorizing={memorizing}
             recentFailIds={recentFailIds}
             onCardSelect={handleCardSelect}
           />
