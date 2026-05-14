@@ -85,11 +85,11 @@ button {
 .brand-lockup {
   display: inline-flex;
   align-items: center;
-  padding: var(--space-sm);
-  background: color-mix(in oklch, var(--surface), transparent 10%);
+  padding: 0;
+  background: transparent;
   color: var(--primary-dark);
-  border-radius: 999px;
-  box-shadow: 0 8px 28px rgba(8, 82, 44, 0.1);
+  border-radius: 0;
+  box-shadow: none;
   font-weight: 800;
 }
 
@@ -354,6 +354,9 @@ h2 {
   object-fit: contain;
   border-radius: 18px;
   filter: drop-shadow(0 10px 20px rgba(0, 55, 28, 0.22));
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .card-front {

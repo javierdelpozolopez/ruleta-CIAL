@@ -1,4 +1,4 @@
-import logoCial from '../assets/images/logo-cial.jpg'
+import logoCial from '../assets/images/logo-cial-transparent.png'
 
 export const DEFAULT_CLIENT_CONFIG = {
   clientName: 'CIAL',
