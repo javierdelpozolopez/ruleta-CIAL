@@ -157,6 +157,13 @@ export default function App() {
         config={config}
         soundEnabled={sound.enabled}
         onToggleSound={sound.toggleSound}
+        screen={screen}
+        elapsed={elapsed}
+        mistakes={game.mistakes}
+        maxMistakes={game.maxMistakes}
+        pairsFound={pairsFound}
+        totalPairs={game.selectedPairs.length}
+        memorizing={memorizing}
       />
 
       <main className="app-shell">
