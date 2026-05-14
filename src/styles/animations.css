@@ -1,0 +1,115 @@
+.primary-button,
+.secondary-button,
+.icon-button,
+.memory-card {
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease;
+}
+
+.primary-button:active,
+.secondary-button:active,
+.icon-button:active,
+.memory-card:active {
+  transform: scale(0.97);
+}
+
+.memory-card.is-matched .card-inner {
+  animation: match-pop 520ms ease both;
+}
+
+.memory-card.is-failed .card-inner {
+  animation: card-shake 360ms ease both;
+}
+
+.start-copy,
+.game-screen,
+.result-screen {
+  animation: screen-in 440ms cubic-bezier(0.2, 0.82, 0.2, 1) both;
+}
+
+.confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.confetti::before,
+.confetti::after {
+  content: '';
+  position: absolute;
+  inset: -12% 0 0;
+  background-image:
+    radial-gradient(circle, var(--yellow) 0 4px, transparent 4px),
+    radial-gradient(circle, var(--orange) 0 5px, transparent 5px),
+    radial-gradient(circle, var(--primary) 0 4px, transparent 4px),
+    radial-gradient(circle, var(--blue) 0 5px, transparent 5px);
+  background-size: 90px 90px, 120px 120px, 140px 140px, 170px 170px;
+  animation: confetti-fall 1400ms ease-out both;
+}
+
+.confetti::after {
+  animation-delay: 120ms;
+  transform: translateX(32px);
+}
+
+@keyframes screen-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes match-pop {
+  0%,
+  100% {
+    transform: rotateY(180deg) scale(1);
+  }
+  48% {
+    transform: rotateY(180deg) scale(1.045);
+  }
+}
+
+@keyframes card-shake {
+  0%,
+  100% {
+    transform: rotateY(180deg) translateX(0);
+  }
+  25% {
+    transform: rotateY(180deg) translateX(-7px);
+  }
+  70% {
+    transform: rotateY(180deg) translateX(7px);
+  }
+}
+
+@keyframes confetti-fall {
+  from {
+    opacity: 0;
+    transform: translateY(-24%);
+  }
+  16% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(72%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+}
