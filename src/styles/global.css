@@ -62,13 +62,13 @@ button {
 .app-shell {
   width: min(1120px, calc(100% - 28px));
   margin: 0 auto;
-  padding: var(--space-lg) 0 var(--space-2xl);
+  padding: var(--space-sm) 0 var(--space-lg);
 }
 
 .header-bar {
   width: min(1120px, calc(100% - 28px));
   margin: 0 auto;
-  padding: max(var(--space-lg), env(safe-area-inset-top)) 0 var(--space-sm);
+  padding: max(var(--space-md), env(safe-area-inset-top)) 0 var(--space-xs);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -120,18 +120,18 @@ button {
 }
 
 .start-screen {
-  min-height: calc(100vh - 96px);
+  min-height: calc(100vh - 78px);
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
   align-items: center;
-  gap: clamp(24px, 6vw, 76px);
+  gap: clamp(18px, 5vw, 64px);
 }
 
 .start-copy,
 .result-screen {
   display: grid;
   justify-items: start;
-  gap: var(--space-xl);
+  gap: var(--space-lg);
 }
 
 .eyebrow {
@@ -149,11 +149,11 @@ p {
 }
 
 h1 {
-  max-width: 11ch;
+  max-width: 10ch;
   color: var(--primary);
   font-family: 'Titan One', Inter, sans-serif;
-  font-size: clamp(3rem, 9vw, 6.6rem);
-  line-height: 0.92;
+  font-size: clamp(3.1rem, 7.4vw, 5.55rem);
+  line-height: 0.95;
   letter-spacing: 0;
   text-transform: lowercase;
 }
@@ -167,8 +167,8 @@ h2 {
 .intro {
   max-width: 58ch;
   color: var(--muted);
-  font-size: clamp(1rem, 2vw, 1.18rem);
-  line-height: 1.62;
+  font-size: clamp(0.95rem, 1.7vw, 1.08rem);
+  line-height: 1.52;
   font-weight: 400;
 }
 
@@ -182,7 +182,7 @@ h2 {
 }
 
 .rule-list li {
-  padding: var(--space-md) var(--space-lg);
+  padding: var(--space-sm) var(--space-lg);
   border: 1px solid color-mix(in oklch, var(--primary), transparent 78%);
   border-radius: 999px;
   background: color-mix(in oklch, var(--surface), transparent 8%);
@@ -192,7 +192,7 @@ h2 {
 
 .primary-button,
 .secondary-button {
-  min-height: 52px;
+  min-height: 50px;
   padding: 0 var(--space-xl);
   border-radius: 999px;
   font-weight: 800;
@@ -211,16 +211,16 @@ h2 {
 
 .start-visual {
   position: relative;
-  min-height: 440px;
+  min-height: min(46vw, 390px);
 }
 
 .hero-card {
   position: absolute;
   display: grid;
   place-items: center;
-  width: clamp(148px, 22vw, 240px);
+  width: clamp(134px, 19vw, 220px);
   aspect-ratio: 0.72;
-  border-radius: 30px;
+  border-radius: 34px 6px 34px 6px;
   color: white;
   font-family: 'Titan One', Inter, sans-serif;
   font-size: clamp(2.2rem, 5vw, 4.2rem);
@@ -228,7 +228,7 @@ h2 {
 }
 
 .hero-card--one {
-  top: 4%;
+  top: 2%;
   left: 10%;
   background: var(--primary);
   transform: rotate(-8deg);
@@ -236,7 +236,7 @@ h2 {
 
 .hero-card--two {
   right: 2%;
-  top: 26%;
+  top: 24%;
   background: var(--blue);
   color: var(--primary-dark);
   transform: rotate(9deg);
@@ -244,7 +244,7 @@ h2 {
 
 .hero-card--three {
   left: 26%;
-  bottom: 2%;
+  bottom: 1%;
   background: var(--orange);
   transform: rotate(4deg);
 }

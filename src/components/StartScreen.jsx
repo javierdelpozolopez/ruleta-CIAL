@@ -3,7 +3,13 @@ export default function StartScreen({ config, onStart }) {
     <section className="start-screen" aria-labelledby="game-title">
       <div className="start-copy">
         <p className="eyebrow">capacitación lúdica</p>
-        <h1 id="game-title">{config.gameTitle}</h1>
+        <h1 id="game-title">
+          memorice de
+          <br />
+          inocuidad
+          <br />
+          alimentaria
+        </h1>
         <p className="intro">{config.intro}</p>
         <ul className="rule-list" aria-label="reglas principales">
           {config.rules.map((rule) => (
