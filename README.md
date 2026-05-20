@@ -1,6 +1,6 @@
-# Memorice de Inocuidad Alimentaria
+# Conecte los Conceptos de Inocuidad Alimentaria
 
-WebApp/PWA React + Vite para juego de memorice por conceptos, personalizado para CIAL.
+WebApp/PWA React + Vite para juego de conexión de conceptos, personalizado para CIAL.
 
 ## Comandos
 

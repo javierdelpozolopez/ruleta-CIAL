@@ -8,13 +8,13 @@ export default function ResultScreen({ status, elapsed, mistakes, maxMistakes, p
   const won = status === 'won'
 
   return (
-    <section className="result-screen" aria-labelledby="result-title">
+    <section className={`result-screen${won ? ' result-screen--won' : ''}`} aria-labelledby="result-title">
       {won && <div className="confetti" aria-hidden="true" />}
       <p className="eyebrow">{won ? 'misión cumplida' : 'nuevo intento'}</p>
-      <h1 id="result-title">{won ? 'inocuidad dominada' : 'quedaste a un paso'}</h1>
+      <h1 id="result-title">{won ? '¡FELICIDADES!' : 'quedaste a un paso'}</h1>
       <p className="intro">
         {won
-          ? 'Encontraste todos los pares antes del límite de fallos.'
+          ? 'Lograste dominar la inocuidad'
           : 'Llegaste al máximo de fallos. Repasa conceptos y vuelve a jugar.'}
       </p>
       <div className="result-stats">

@@ -4,7 +4,9 @@ export default function StartScreen({ config, onStart }) {
       <div className="start-copy">
         <p className="eyebrow">capacitación lúdica</p>
         <h1 id="game-title">
-          memorice de
+          conecte
+          <br />
+          los conceptos
           <br />
           inocuidad
           <br />

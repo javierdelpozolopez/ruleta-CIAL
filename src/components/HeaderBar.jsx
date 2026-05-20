@@ -22,7 +22,7 @@ const IconTrophy = () => (
   </svg>
 )
 
-export default function HeaderBar({ config, soundEnabled, onToggleSound, screen, elapsed, mistakes, maxMistakes, pairsFound, totalPairs, memorizing }) {
+export default function HeaderBar({ config, soundEnabled, onToggleSound, screen, elapsed, mistakes, maxMistakes, pairsFound, totalPairs }) {
   return (
     <header className="header-bar">
       <div className="brand-lockup" aria-label={`marca ${config.clientName}`}>
@@ -39,8 +39,8 @@ export default function HeaderBar({ config, soundEnabled, onToggleSound, screen,
             <strong>{pairsFound}/{totalPairs}</strong>
           </div>
           <div className="header-stat">
-            <span>{memorizing ? 'memoriza' : 'tiempo'}</span>
-            <strong>{memorizing ? '...' : formatTime(elapsed)}</strong>
+            <span>tiempo</span>
+            <strong>{formatTime(elapsed)}</strong>
           </div>
         </div>
       )}

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-const SOUND_KEY = 'memorice-sound-enabled'
+const SOUND_KEY = 'conecte-conceptos-sound-enabled'
 
 function createTone(audioContext, frequency, duration, type = 'sine', gain = 0.08) {
   const oscillator = audioContext.createOscillator()

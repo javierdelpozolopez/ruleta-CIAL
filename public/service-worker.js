@@ -1,4 +1,4 @@
-const CACHE_VERSION = "cial-memorice-v2";
+const CACHE_VERSION = "cial-conecte-conceptos-v2";
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 

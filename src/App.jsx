@@ -9,7 +9,6 @@ import HeaderBar from './components/HeaderBar.jsx'
 import AdminPanel from './components/AdminPanel.jsx'
 
 const EVALUATION_DELAY = 780
-const MEMORIZE_DELAY = 8000
 
 function applyTheme(config) {
   const root = document.documentElement
@@ -24,60 +23,32 @@ function applyTheme(config) {
 export default function App() {
   const [screen, setScreen] = useState('start')
   const [game, setGame] = useState(() => createNewGame())
-  const [locked, setLocked] = useState(false)
-  const [memorizing, setMemorizing] = useState(false)
+  const lockedRef = useRef(false)
   const [recentFailIds, setRecentFailIds] = useState([])
   const [elapsed, setElapsed] = useState(0)
   const [adminOpen, setAdminOpen] = useState(() => new URLSearchParams(window.location.search).get('admin') === '1')
   const [config, setConfig] = useState(loadClientConfig)
-  const memorizeTimeoutRef = useRef(null)
   const sound = useSound()
 
   useEffect(() => applyTheme(config), [config])
 
   useEffect(() => {
     if (screen !== 'game' || game.status !== 'playing') return undefined
-    if (memorizing) return undefined
     const timer = window.setInterval(() => {
       setElapsed(Math.floor((Date.now() - game.startedAt) / 1000))
     }, 1000)
     return () => window.clearInterval(timer)
-  }, [game.startedAt, game.status, memorizing, screen])
-
-  useEffect(
-    () => () => {
-      if (memorizeTimeoutRef.current) window.clearTimeout(memorizeTimeoutRef.current)
-    },
-    [],
-  )
+  }, [game.startedAt, game.status, screen])
 
   const pairsFound = game.matchedPairIds.length
 
   const startGame = () => {
     const nextGame = createNewGame()
-    const previewGame = {
-      ...nextGame,
-      deck: nextGame.deck.map((card) => ({ ...card, isFlipped: true })),
-      startedAt: Date.now() + MEMORIZE_DELAY,
-    }
-    if (memorizeTimeoutRef.current) window.clearTimeout(memorizeTimeoutRef.current)
-    setGame(previewGame)
+    setGame(nextGame)
     setElapsed(0)
     setRecentFailIds([])
-    setLocked(true)
-    setMemorizing(true)
+    lockedRef.current = false
     setScreen('game')
-
-    memorizeTimeoutRef.current = window.setTimeout(() => {
-      setGame((currentGame) => ({
-        ...currentGame,
-        deck: currentGame.deck.map((card) => ({ ...card, isFlipped: false })),
-        startedAt: Date.now(),
-      }))
-      setLocked(false)
-      setMemorizing(false)
-      memorizeTimeoutRef.current = null
-    }, MEMORIZE_DELAY)
   }
 
   const finishGame = (nextGame, status) => {
@@ -89,21 +60,21 @@ export default function App() {
   }
 
   const handleCardSelect = (cardId) => {
-    if (locked || game.status !== 'playing') return
+    if (lockedRef.current || game.status !== 'playing') return
     const selectedCard = game.deck.find((card) => card.id === cardId)
-    if (!selectedCard || selectedCard.isMatched || selectedCard.isFlipped) return
+    if (!selectedCard || selectedCard.isMatched || selectedCard.isSelected) return
 
     sound.playClick()
 
-    const flippedCardIds = [...game.flippedCardIds, cardId]
-    const deck = game.deck.map((card) => (card.id === cardId ? { ...card, isFlipped: true } : card))
-    const nextGame = { ...game, deck, flippedCardIds }
+    const selectedCardIds = [...game.selectedCardIds, cardId]
+    const deck = game.deck.map((card) => (card.id === cardId ? { ...card, isSelected: true } : card))
+    const nextGame = { ...game, deck, selectedCardIds }
     setGame(nextGame)
 
-    if (flippedCardIds.length < 2) return
+    if (selectedCardIds.length < 2) return
 
-    setLocked(true)
-    const [firstId, secondId] = flippedCardIds
+    lockedRef.current = true
+    const [firstId, secondId] = selectedCardIds
     const first = deck.find((card) => card.id === firstId)
     const second = deck.find((card) => card.id === secondId)
     const isMatch = first.pairId === second.pairId && first.id !== second.id
@@ -112,11 +83,11 @@ export default function App() {
       if (isMatch) {
         const matchedPairIds = [...nextGame.matchedPairIds, first.pairId]
         const matchedDeck = deck.map((card) =>
-          card.pairId === first.pairId ? { ...card, isMatched: true, isFlipped: true } : card,
+          card.pairId === first.pairId ? { ...card, isMatched: true, isSelected: false } : card,
         )
-        const updatedGame = { ...nextGame, deck: matchedDeck, matchedPairIds, flippedCardIds: [] }
+        const updatedGame = { ...nextGame, deck: matchedDeck, matchedPairIds, selectedCardIds: [] }
         sound.playSuccess()
-        setLocked(false)
+        lockedRef.current = false
         if (matchedPairIds.length === nextGame.selectedPairs.length) {
           finishGame(updatedGame, 'won')
         } else {
@@ -126,12 +97,12 @@ export default function App() {
       }
 
       const mistakes = nextGame.mistakes + 1
-      const failedDeck = deck.map((card) => (flippedCardIds.includes(card.id) ? { ...card, isFlipped: false } : card))
-      const updatedGame = { ...nextGame, deck: failedDeck, mistakes, flippedCardIds: [] }
-      setRecentFailIds(flippedCardIds)
+      const failedDeck = deck.map((card) => (selectedCardIds.includes(card.id) ? { ...card, isSelected: false } : card))
+      const updatedGame = { ...nextGame, deck: failedDeck, mistakes, selectedCardIds: [] }
+      setRecentFailIds(selectedCardIds)
       sound.playError()
       window.setTimeout(() => setRecentFailIds([]), 520)
-      setLocked(false)
+      lockedRef.current = false
 
       if (mistakes >= nextGame.maxMistakes) {
         finishGame(updatedGame, 'lost')
@@ -163,7 +134,6 @@ export default function App() {
         maxMistakes={game.maxMistakes}
         pairsFound={pairsFound}
         totalPairs={game.selectedPairs.length}
-        memorizing={memorizing}
       />
 
       <main className="app-shell">
@@ -176,7 +146,6 @@ export default function App() {
             maxMistakes={game.maxMistakes}
             pairsFound={pairsFound}
             totalPairs={game.selectedPairs.length}
-            memorizing={memorizing}
             recentFailIds={recentFailIds}
             onCardSelect={handleCardSelect}
           />

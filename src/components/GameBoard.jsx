@@ -3,7 +3,7 @@ import ProgressBar from './ProgressBar.jsx'
 
 export default function GameBoard({ cards, recentFailIds, onCardSelect, pairsFound, totalPairs }) {
   return (
-    <section className="game-screen" aria-label="tablero de memorice">
+    <section className="game-screen" aria-label="tablero para conectar conceptos">
       <ProgressBar value={pairsFound} max={totalPairs} />
       <div className="cards-grid">
         {cards.map((card) => (

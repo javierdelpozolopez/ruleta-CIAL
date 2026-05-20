@@ -443,96 +443,107 @@ h2 {
   position: relative;
   display: block;
   width: 100%;
-  transform-style: preserve-3d;
-  transition: transform 420ms cubic-bezier(0.2, 0.82, 0.2, 1);
-}
-
-.memory-card.is-flipped .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-face {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: clamp(10px, 2vw, 20px);
-  border-radius: var(--card-radius) 5px var(--card-radius) 5px;
-  backface-visibility: hidden;
-  box-shadow: var(--card-shadow);
-}
-
-.card-back {
-  position: relative;
-  overflow: hidden;
-  background: var(--card-back);
-  color: white;
   height: 100%;
 }
 
-.card-back::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  opacity: 0.46;
-  background-color: white;
-  mask-image: url('../assets/images/trama-cial-bold.svg');
-  mask-repeat: repeat;
-  mask-size: 220px auto;
-  mask-position: center;
-  -webkit-mask-image: url('../assets/images/trama-cial-bold.svg');
-  -webkit-mask-repeat: repeat;
-  -webkit-mask-size: 220px auto;
-  -webkit-mask-position: center;
+.card-face {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: clamp(10px, 2vw, 20px);
+  border-radius: var(--card-radius) 5px var(--card-radius) 5px;
+  box-shadow: var(--card-shadow);
 }
 
-.card-back::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 48%, color-mix(in oklch, var(--card-back), black 8%) 0 12%, transparent 44%);
+.card-front {
+  gap: clamp(6px, 1.3vw, 12px);
+  background: var(--card-front);
+  color: var(--ink);
+  border: 2px solid transparent;
 }
 
-.card-logo {
+.card-label {
+  position: absolute;
+  right: clamp(10px, 2vw, 20px);
+  bottom: clamp(14px, 2vw, 22px);
+  left: clamp(10px, 2vw, 20px);
+  width: auto;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  font-weight: 800;
+  font-size: clamp(0.86rem, 2.85vw, 1.15rem);
+  line-height: 1.14;
+  text-align: center;
+}
+
+.card-illustration {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: min(84%, 116px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+}
+
+.card-illustration::before {
+  content: '';
+  position: absolute;
+  inset: 4%;
+  z-index: 0;
+  border-radius: 50%;
+  background: color-mix(in oklch, var(--primary), white 90%);
+}
+
+.card-illustration svg {
   position: relative;
   z-index: 1;
-  width: min(58%, 92px);
-  height: auto;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.card-icon-image {
+  position: relative;
+  z-index: 1;
+  display: block;
+  max-width: 90%;
+  max-height: 90%;
   object-fit: contain;
-  border-radius: 18px;
-  filter: drop-shadow(0 10px 20px rgba(0, 55, 28, 0.22));
-  pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
 }
 
-.card-front {
-  gap: var(--space-md);
-  background: var(--card-front);
-  color: var(--ink);
-  transform: rotateY(180deg);
+.icon-soft {
+  fill: color-mix(in oklch, var(--primary), transparent 94%);
 }
 
-.card-kind {
-  align-self: start;
-  justify-self: start;
-  color: var(--primary-dark);
-  font-size: clamp(0.55rem, 2vw, 0.68rem);
-  font-weight: 800;
+.icon-line,
+.icon-accent-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4;
 }
 
-.card-label {
-  width: 100%;
-  overflow-wrap: anywhere;
-  color: var(--ink);
-  font-weight: 800;
-  font-size: clamp(0.65rem, 2.6vw, 0.92rem);
-  line-height: 1.2;
-  text-align: left;
+.icon-line {
+  stroke: color-mix(in oklch, var(--muted), black 10%);
+}
+
+.icon-accent-line {
+  stroke: var(--primary);
+}
+
+.memory-card.is-selected .card-front {
+  border-color: var(--blue);
+  box-shadow: 0 16px 34px color-mix(in oklch, var(--blue), transparent 66%);
 }
 
 .memory-card.is-matched .card-face {
   outline: 3px solid color-mix(in oklch, var(--primary), white 18%);
+  background: color-mix(in oklch, var(--primary), white 92%);
 }
 
 .memory-card.is-failed .card-face {
@@ -543,6 +554,16 @@ h2 {
   position: relative;
   min-height: calc(100vh - 120px);
   align-content: center;
+}
+
+.result-screen--won {
+  justify-items: center;
+  text-align: center;
+}
+
+.result-screen--won h1 {
+  max-width: 12ch;
+  text-transform: uppercase;
 }
 
 .result-stats {

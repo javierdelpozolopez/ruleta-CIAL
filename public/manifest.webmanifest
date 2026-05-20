@@ -1,7 +1,7 @@
 {
-  "name": "Memorice de Inocuidad Alimentaria",
-  "short_name": "Memorice CIAL",
-  "description": "Juego memorice de inocuidad alimentaria para capacitación CIAL.",
+  "name": "Conecte los Conceptos de Inocuidad Alimentaria",
+  "short_name": "Conecte CIAL",
+  "description": "Juego para conectar conceptos de inocuidad alimentaria en capacitación CIAL.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

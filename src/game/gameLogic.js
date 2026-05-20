@@ -1,7 +1,7 @@
 import { CARD_PAIRS } from '../data/cardsData.js'
 
 const DEFAULT_PAIR_COUNT = 6
-const DEFAULT_MAX_MISTAKES = 5
+const DEFAULT_MAX_MISTAKES = 3
 
 export function shuffleArray(array, random = Math.random) {
   const shuffled = [...array]
@@ -30,7 +30,7 @@ function normalizeCard(pair, side, card) {
     src: card.src || '',
     alt: card.alt || card.label,
     isMatched: false,
-    isFlipped: false,
+    isSelected: false,
   }
 }
 
@@ -56,7 +56,7 @@ export function createNewGame(options = {}) {
     maxMistakes,
     mistakes: 0,
     matchedPairIds: [],
-    flippedCardIds: [],
+    selectedCardIds: [],
     startedAt: Date.now(),
     endedAt: null,
     status: 'playing',
