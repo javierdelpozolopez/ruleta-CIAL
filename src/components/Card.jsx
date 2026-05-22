@@ -216,21 +216,32 @@ function ConceptIcon({ card }) {
   )
 }
 
-export default function Card({ card, failed, onSelect }) {
-  const classes = ['memory-card', card.isSelected ? 'is-selected' : '', card.isMatched ? 'is-matched' : '', failed ? 'is-failed' : '']
+export default function Card({ card, failed, logo, isPreview, onSelect }) {
+  const revealed = isPreview || card.isSelected || card.isMatched
+  const classes = [
+    'memory-card',
+    revealed ? 'is-revealed' : '',
+    card.isSelected ? 'is-selected' : '',
+    card.isMatched ? 'is-matched' : '',
+    failed ? 'is-failed' : '',
+  ]
     .filter(Boolean)
     .join(' ')
 
   return (
     <button
       className={classes}
+      style={{ '--concept-color': card.color }}
       type="button"
       onClick={() => onSelect(card.id)}
-      disabled={card.isMatched}
-      aria-label={`tarjeta: ${card.label}`}
+      disabled={isPreview || card.isMatched}
+      aria-label={revealed ? `tarjeta: ${card.label}` : 'tarjeta oculta'}
       aria-pressed={card.isSelected || card.isMatched}
     >
       <span className="card-inner">
+        <span className="card-face card-back" aria-hidden="true">
+          <img className="card-back-logo" src={logo} alt="" draggable="false" />
+        </span>
         <span className="card-face card-front">
           <ConceptIcon card={card} />
           {card.kind === 'image' && card.src ? <img src={card.src} alt={card.alt} /> : <span className="card-label">{card.label}</span>}

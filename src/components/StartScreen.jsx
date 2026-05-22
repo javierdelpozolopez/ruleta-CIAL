@@ -3,15 +3,7 @@ export default function StartScreen({ config, onStart }) {
     <section className="start-screen" aria-labelledby="game-title">
       <div className="start-copy">
         <p className="eyebrow">capacitación lúdica</p>
-        <h1 id="game-title">
-          conecte
-          <br />
-          los conceptos
-          <br />
-          inocuidad
-          <br />
-          alimentaria
-        </h1>
+        <h1 id="game-title">{config.gameTitle}</h1>
         <p className="intro">{config.intro}</p>
         <ul className="rule-list" aria-label="reglas principales">
           {config.rules.map((rule) => (
@@ -23,8 +15,8 @@ export default function StartScreen({ config, onStart }) {
         </button>
       </div>
       <div className="start-visual" aria-hidden="true">
-        <div className="hero-card hero-card--one">BPM</div>
-        <div className="hero-card hero-card--two">HACCP</div>
+        <div className="hero-card hero-card--one">60</div>
+        <div className="hero-card hero-card--two">6</div>
         <div className="hero-card hero-card--three">3</div>
       </div>
     </section>

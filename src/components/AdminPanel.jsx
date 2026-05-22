@@ -3,9 +3,13 @@ const COLOR_FIELDS = [
   ['primaryDark', 'verde oscuro'],
   ['orange', 'naranjo'],
   ['red', 'rojo error'],
+  ['magenta', 'magenta'],
+  ['yellow', 'amarillo'],
+  ['gold', 'dorado'],
   ['blue', 'azul apoyo'],
+  ['royalBlue', 'azul corporativo'],
   ['soft', 'fondo suave'],
-  ['cardBack', 'reverso tarjeta'],
+  ['cardBack', 'lomo tarjeta'],
   ['cardFront', 'frente tarjeta'],
 ]
 
@@ -30,22 +34,22 @@ export default function AdminPanel({ config, onChange, onReset, onClose }) {
 
         <label>
           cliente
-          <input value={config.clientName} onChange={(event) => updateText('clientName', event.target.value)} />
+          <input aria-label="cliente" value={config.clientName} onChange={(event) => updateText('clientName', event.target.value)} />
         </label>
         <label>
           título
-          <input value={config.gameTitle} onChange={(event) => updateText('gameTitle', event.target.value)} />
+          <input aria-label="título" value={config.gameTitle} onChange={(event) => updateText('gameTitle', event.target.value)} />
         </label>
         <label>
           texto inicio
-          <textarea rows="3" value={config.intro} onChange={(event) => updateText('intro', event.target.value)} />
+          <textarea aria-label="texto inicio" rows="3" value={config.intro} onChange={(event) => updateText('intro', event.target.value)} />
         </label>
 
         <div className="color-grid">
           {COLOR_FIELDS.map(([key, label]) => (
             <label key={key}>
               {label}
-              <input type="color" value={config.theme[key]} onChange={(event) => update(['theme', key], event.target.value)} />
+              <input aria-label={label} type="color" value={config.theme[key]} onChange={(event) => update(['theme', key], event.target.value)} />
             </label>
           ))}
         </div>
@@ -54,6 +58,7 @@ export default function AdminPanel({ config, onChange, onReset, onClose }) {
           radio tarjetas
           <input
             type="range"
+            aria-label="radio tarjetas"
             min="8"
             max="32"
             value={config.cardStyle.radius}

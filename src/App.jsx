@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { createNewGame } from './game/gameLogic.js'
 import { useSound } from './hooks/useSound.js'
 import { DEFAULT_CLIENT_CONFIG, loadClientConfig, resetClientConfig, saveClientConfig } from './config/clientConfig.js'
@@ -9,6 +9,10 @@ import HeaderBar from './components/HeaderBar.jsx'
 import AdminPanel from './components/AdminPanel.jsx'
 
 const EVALUATION_DELAY = 780
+
+function getNow() {
+  return Date.now()
+}
 
 function applyTheme(config) {
   const root = document.documentElement
@@ -28,22 +32,22 @@ export default function App() {
   const [elapsed, setElapsed] = useState(0)
   const [adminOpen, setAdminOpen] = useState(() => new URLSearchParams(window.location.search).get('admin') === '1')
   const [config, setConfig] = useState(loadClientConfig)
+  const gameRef = useRef(game)
+  const gameStatusRef = useRef(game.status)
   const sound = useSound()
 
   useEffect(() => applyTheme(config), [config])
-
   useEffect(() => {
-    if (screen !== 'game' || game.status !== 'playing') return undefined
-    const timer = window.setInterval(() => {
-      setElapsed(Math.floor((Date.now() - game.startedAt) / 1000))
-    }, 1000)
-    return () => window.clearInterval(timer)
-  }, [game.startedAt, game.status, screen])
+    gameRef.current = game
+    gameStatusRef.current = game.status
+  }, [game])
 
   const pairsFound = game.matchedPairIds.length
 
   const startGame = () => {
     const nextGame = createNewGame()
+    gameRef.current = nextGame
+    gameStatusRef.current = nextGame.status
     setGame(nextGame)
     setElapsed(0)
     setRecentFailIds([])
@@ -51,24 +55,75 @@ export default function App() {
     setScreen('game')
   }
 
-  const finishGame = (nextGame, status) => {
-    const finished = { ...nextGame, status, endedAt: Date.now() }
+  const finishGame = useCallback((nextGame, status, endReason = 'completed', endedAt) => {
+    const finishedAt = endedAt ?? getNow()
+    const finalElapsed = Math.min(Math.floor((finishedAt - nextGame.startedAt) / 1000), nextGame.timeLimit)
+    const finished = { ...nextGame, status, endReason, endedAt: finishedAt }
+    lockedRef.current = true
+    gameRef.current = finished
+    gameStatusRef.current = finished.status
     setGame(finished)
-    setElapsed(Math.floor((Date.now() - nextGame.startedAt) / 1000))
+    setElapsed(finalElapsed)
     setScreen('result')
     if (status === 'won') sound.playVictory()
-  }
+  }, [sound])
+
+  useEffect(() => {
+    if (screen !== 'game' || game.status !== 'preview') return undefined
+
+    lockedRef.current = true
+
+    const revealRemaining = Math.max(0, game.previewEndsAt - Date.now())
+    const timer = window.setTimeout(() => {
+      const currentGame = gameRef.current
+      if (currentGame.status !== 'preview') return
+
+      const startedAt = Date.now()
+      const playingGame = {
+        ...currentGame,
+        startedAt,
+        previewEndsAt: startedAt,
+        status: 'playing',
+      }
+
+      lockedRef.current = false
+      gameRef.current = playingGame
+      gameStatusRef.current = playingGame.status
+      setGame(playingGame)
+    }, revealRemaining)
+
+    return () => window.clearTimeout(timer)
+  }, [game.previewEndsAt, game.status, screen])
+
+  useEffect(() => {
+    if (screen !== 'game' || game.status !== 'playing') return undefined
+
+    const tick = () => {
+      const seconds = Math.floor((Date.now() - game.startedAt) / 1000)
+      setElapsed(Math.min(seconds, game.timeLimit))
+
+      if (seconds >= game.timeLimit) {
+        finishGame(game, 'lost', 'timeout', game.startedAt + game.timeLimit * 1000)
+      }
+    }
+
+    tick()
+    const timer = window.setInterval(tick, 250)
+    return () => window.clearInterval(timer)
+  }, [finishGame, game, screen])
 
   const handleCardSelect = (cardId) => {
-    if (lockedRef.current || game.status !== 'playing') return
-    const selectedCard = game.deck.find((card) => card.id === cardId)
+    const currentGame = gameRef.current
+    if (lockedRef.current || currentGame.status !== 'playing') return
+    const selectedCard = currentGame.deck.find((card) => card.id === cardId)
     if (!selectedCard || selectedCard.isMatched || selectedCard.isSelected) return
 
     sound.playClick()
 
-    const selectedCardIds = [...game.selectedCardIds, cardId]
-    const deck = game.deck.map((card) => (card.id === cardId ? { ...card, isSelected: true } : card))
-    const nextGame = { ...game, deck, selectedCardIds }
+    const selectedCardIds = [...currentGame.selectedCardIds, cardId]
+    const deck = currentGame.deck.map((card) => (card.id === cardId ? { ...card, isSelected: true } : card))
+    const nextGame = { ...currentGame, deck, selectedCardIds }
+    gameRef.current = nextGame
     setGame(nextGame)
 
     if (selectedCardIds.length < 2) return
@@ -80,6 +135,8 @@ export default function App() {
     const isMatch = first.pairId === second.pairId && first.id !== second.id
 
     window.setTimeout(() => {
+      if (gameStatusRef.current !== 'playing') return
+
       if (isMatch) {
         const matchedPairIds = [...nextGame.matchedPairIds, first.pairId]
         const matchedDeck = deck.map((card) =>
@@ -91,6 +148,7 @@ export default function App() {
         if (matchedPairIds.length === nextGame.selectedPairs.length) {
           finishGame(updatedGame, 'won')
         } else {
+          gameRef.current = updatedGame
           setGame(updatedGame)
         }
         return
@@ -105,8 +163,9 @@ export default function App() {
       lockedRef.current = false
 
       if (mistakes >= nextGame.maxMistakes) {
-        finishGame(updatedGame, 'lost')
+        finishGame(updatedGame, 'lost', 'mistakes')
       } else {
+        gameRef.current = updatedGame
         setGame(updatedGame)
       }
     }, EVALUATION_DELAY)
@@ -134,6 +193,7 @@ export default function App() {
         maxMistakes={game.maxMistakes}
         pairsFound={pairsFound}
         totalPairs={game.selectedPairs.length}
+        timeLimit={game.timeLimit}
       />
 
       <main className="app-shell">
@@ -146,6 +206,9 @@ export default function App() {
             maxMistakes={game.maxMistakes}
             pairsFound={pairsFound}
             totalPairs={game.selectedPairs.length}
+            timeLimit={game.timeLimit}
+            logo={config.logo}
+            isPreview={game.status === 'preview'}
             recentFailIds={recentFailIds}
             onCardSelect={handleCardSelect}
           />
@@ -158,6 +221,7 @@ export default function App() {
             maxMistakes={game.maxMistakes}
             pairsFound={pairsFound}
             totalPairs={game.selectedPairs.length}
+            endReason={game.endReason}
             onRetry={startGame}
             onHome={() => setScreen('start')}
           />

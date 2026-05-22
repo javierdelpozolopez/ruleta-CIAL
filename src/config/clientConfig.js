@@ -3,10 +3,10 @@ import logoCial from '../assets/images/logo-cial-transparent.png'
 export const DEFAULT_CLIENT_CONFIG = {
   clientName: 'CIAL',
   logo: logoCial,
-  gameTitle: 'conecte los conceptos de inocuidad alimentaria',
+  gameTitle: 'Memorice',
   intro:
-    'Selecciona dos tarjetas visibles y conecta cada concepto con su definición o práctica relacionada.',
-  rules: ['12 tarjetas por partida', '6 conexiones al azar', 'máximo 3 fallos'],
+    'Te presentamos los conceptos de inocuidad alimentaria. Junta los pares.',
+  rules: ['12 tarjetas', '6 conceptos al azar', '60 segundos', 'máximo 3 errores'],
   theme: {
     primary: '#00843D',
     primaryDark: '#046A38',
@@ -16,11 +16,12 @@ export const DEFAULT_CLIENT_CONFIG = {
     yellow: '#FEC72C',
     gold: '#BFA976',
     blue: '#8BB8E8',
+    royalBlue: '#003DA5',
     soft: '#F6EDD0',
     ink: '#1F2B22',
     muted: '#5D675F',
     surface: '#FFFDF7',
-    cardBack: '#00843D',
+    cardBack: '#FFFDF7',
     cardFront: '#FFFDF7',
     cardAccent: '#FF8200',
   },
@@ -31,7 +32,7 @@ export const DEFAULT_CLIENT_CONFIG = {
   },
 }
 
-const STORAGE_KEY = 'conecte-conceptos-client-config'
+const STORAGE_KEY = 'memorice-cial-client-config-v2'
 
 export function loadClientConfig() {
   try {
