@@ -3,7 +3,7 @@ import logoCial from '../assets/images/logo-cial-transparent.png'
 export const DEFAULT_CLIENT_CONFIG = {
   clientName: 'CIAL',
   logo: logoCial,
-  gameTitle: 'Memorice',
+  gameTitle: 'Memorice CIAL',
   intro:
     'Te presentamos los conceptos de inocuidad alimentaria.',
   rules: ['12 tarjetas', '6 conceptos al azar', '60 segundos', 'máximo 3 errores'],
@@ -50,9 +50,12 @@ export function loadClientConfig() {
     const saved = window.localStorage.getItem(STORAGE_KEY)
     if (!saved) return DEFAULT_CLIENT_CONFIG
     const parsed = JSON.parse(saved)
+    const gameTitle = !parsed.gameTitle || parsed.gameTitle === 'Memorice' ? DEFAULT_CLIENT_CONFIG.gameTitle : parsed.gameTitle
+
     return {
       ...DEFAULT_CLIENT_CONFIG,
       ...parsed,
+      gameTitle,
       rules: DEFAULT_CLIENT_CONFIG.rules,
       theme: { ...DEFAULT_CLIENT_CONFIG.theme, ...parsed.theme },
       cardStyle: { ...DEFAULT_CLIENT_CONFIG.cardStyle, ...parsed.cardStyle },

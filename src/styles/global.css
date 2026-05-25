@@ -219,7 +219,7 @@ button {
 .admin-actions {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
+  gap: var(--space-sm);
 }
 
 .icon-button {
@@ -231,6 +231,20 @@ button {
   background: var(--surface);
   color: var(--primary-dark);
   box-shadow: 0 8px 22px rgba(8, 82, 44, 0.1);
+}
+
+.icon-button--fullscreen {
+  width: 34px;
+  height: 34px;
+  color: color-mix(in oklch, var(--primary-dark), transparent 18%);
+  background: color-mix(in oklch, var(--surface), transparent 16%);
+  box-shadow: 0 6px 16px rgba(8, 82, 44, 0.08);
+  opacity: 0.82;
+}
+
+.icon-button--fullscreen:hover,
+.icon-button--fullscreen:focus-visible {
+  opacity: 1;
 }
 
 .start-screen {
@@ -285,6 +299,10 @@ h1 {
   line-height: 0.95;
   letter-spacing: 0;
   text-transform: lowercase;
+}
+
+.start-screen h1 {
+  text-transform: none;
 }
 
 h2 {

@@ -1,4 +1,5 @@
 import SoundToggle from './SoundToggle.jsx'
+import FullscreenToggle from './FullscreenToggle.jsx'
 
 function formatTime(seconds) {
   const minutes = Math.floor(seconds / 60)
@@ -48,6 +49,7 @@ export default function HeaderBar({ config, soundEnabled, onToggleSound, screen,
       )}
       <nav className="header-actions" aria-label="controles del juego">
         <SoundToggle enabled={soundEnabled} onToggle={onToggleSound} />
+        <FullscreenToggle />
       </nav>
     </header>
   )
