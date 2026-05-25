@@ -94,8 +94,8 @@ function IconDrawing({ type }) {
     case 'cold':
       return (
         <>
-          <path className="icon-line" d="M48 24v48M31 34l34 28M65 34 31 62" />
-          <path className="icon-accent-line" d="M36 24v14H22M60 24v14h14M36 72V58H22M60 72V58h14" />
+          <path className="icon-line" d="M48 18v60M25 33l46 30M71 33 25 63" />
+          <path className="icon-accent-line" d="M37 18v18H20M59 18v18h17M37 78V60H20M59 78V60h17" />
         </>
       )
     case 'search':
@@ -197,7 +197,7 @@ function resolveIconSrc(src) {
   return `${src}?v=3`
 }
 
-function ConceptIcon({ card }) {
+export function ConceptIcon({ card }) {
   if (card.src) {
     return (
       <span className="card-illustration" aria-hidden="true">

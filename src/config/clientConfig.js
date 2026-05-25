@@ -5,7 +5,7 @@ export const DEFAULT_CLIENT_CONFIG = {
   logo: logoCial,
   gameTitle: 'Memorice',
   intro:
-    'Te presentamos los conceptos de inocuidad alimentaria. Junta los pares.',
+    'Te presentamos los conceptos de inocuidad alimentaria.',
   rules: ['12 tarjetas', '6 conceptos al azar', '60 segundos', 'máximo 3 errores'],
   theme: {
     primary: '#00843D',
@@ -24,6 +24,17 @@ export const DEFAULT_CLIENT_CONFIG = {
     cardBack: '#FFFDF7',
     cardFront: '#FFFDF7',
     cardAccent: '#FF8200',
+    iconCircleGreen: '#00843D',
+    iconCircleDarkGreen: '#046A38',
+    iconCircleOrange: '#FF8200',
+    iconCircleRed: '#DA291C',
+    iconCircleYellow: '#FEC72C',
+    iconCircleGold: '#BFA976',
+    iconCircleMagenta: '#A51890',
+    iconCircleRoyalBlue: '#003DA5',
+    iconCircleBlue: '#8BB8E8',
+    iconCircleCream: '#F6EDD0',
+    iconCircleMix: '64%',
   },
   cardStyle: {
     radius: 18,
@@ -32,7 +43,7 @@ export const DEFAULT_CLIENT_CONFIG = {
   },
 }
 
-const STORAGE_KEY = 'memorice-cial-client-config-v2'
+const STORAGE_KEY = 'memorice-cial-client-config-v3'
 
 export function loadClientConfig() {
   try {

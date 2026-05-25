@@ -42,16 +42,21 @@
   position: absolute;
   inset: -12% 0 0;
   background-image:
-    radial-gradient(circle, var(--yellow) 0 4px, transparent 4px),
-    radial-gradient(circle, var(--orange) 0 5px, transparent 5px),
     radial-gradient(circle, var(--primary) 0 4px, transparent 4px),
-    radial-gradient(circle, var(--blue) 0 5px, transparent 5px);
-  background-size: 90px 90px, 120px 120px, 140px 140px, 170px 170px;
-  animation: confetti-fall 2600ms ease-out infinite both;
+    radial-gradient(circle, var(--primary-dark) 0 5px, transparent 5px),
+    radial-gradient(circle, var(--orange) 0 5px, transparent 5px),
+    radial-gradient(circle, var(--red) 0 4px, transparent 4px),
+    radial-gradient(circle, var(--yellow) 0 5px, transparent 5px),
+    radial-gradient(circle, var(--gold) 0 4px, transparent 4px),
+    radial-gradient(circle, var(--magenta) 0 5px, transparent 5px),
+    radial-gradient(circle, var(--royal-blue) 0 4px, transparent 4px),
+    radial-gradient(circle, var(--blue) 0 5px, transparent 5px),
+    radial-gradient(circle, var(--soft) 0 5px, transparent 5px);
+  background-size: 90px 90px, 118px 118px, 132px 132px, 156px 156px, 176px 176px, 104px 104px, 148px 148px, 168px 168px, 128px 128px, 188px 188px;
+  animation: confetti-fall 3000ms ease-out infinite both;
 }
 
 .confetti::after {
-  animation-delay: 1.2s;
   transform: translateX(32px);
 }
 
@@ -100,14 +105,18 @@
 }
 
 @keyframes confetti-fall {
-  from {
+  0% {
     opacity: 0;
     transform: translateY(-24%);
   }
   16% {
     opacity: 1;
   }
-  to {
+  58% {
+    opacity: 0;
+    transform: translateY(92%);
+  }
+  100% {
     opacity: 0;
     transform: translateY(92%);
   }

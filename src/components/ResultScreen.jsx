@@ -4,17 +4,14 @@ function formatTime(seconds) {
   return `${minutes}:${String(rest).padStart(2, '0')}`
 }
 
-export default function ResultScreen({ status, endReason, elapsed, mistakes, maxMistakes, pairsFound, totalPairs, onRetry, onHome }) {
+export default function ResultScreen({ status, elapsed, mistakes, maxMistakes, pairsFound, totalPairs, onRetry, onHome }) {
   const won = status === 'won'
-  const lostMessage =
-    endReason === 'timeout'
-      ? 'Se terminaron los 60 segundos. Repasa conceptos y vuelve a jugar.'
-      : 'Llegaste al máximo de errores. Repasa conceptos y vuelve a jugar.'
+  const lostMessage = 'Llegaste al máximo de errores, repasa los conceptos. Gracias por participar.'
 
   return (
     <section className={`result-screen${won ? ' result-screen--won' : ''}`} aria-labelledby="result-title">
       {won && <div className="confetti" aria-hidden="true" />}
-      <p className="eyebrow">{won ? 'misión cumplida' : 'nuevo intento'}</p>
+      {won && <p className="eyebrow">misión cumplida</p>}
       <h1 id="result-title">{won ? '¡FELICIDADES!' : 'quedaste a un paso'}</h1>
       <p className="intro">
         {won

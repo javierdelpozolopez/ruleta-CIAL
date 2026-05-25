@@ -3,7 +3,7 @@ import { CARD_PAIRS } from '../data/cardsData.js'
 const DEFAULT_PAIR_COUNT = 6
 const DEFAULT_MAX_MISTAKES = 3
 const DEFAULT_TIME_LIMIT = 60
-const DEFAULT_PREVIEW_SECONDS = 5
+const DEFAULT_PREVIEW_SECONDS = 8
 
 export function shuffleArray(array, random = Math.random) {
   const shuffled = [...array]

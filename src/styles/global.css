@@ -234,7 +234,7 @@ button {
 }
 
 .start-screen {
-  min-height: calc(100vh - 78px);
+  min-height: calc(100dvh - 90px);
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
   align-items: center;
@@ -284,6 +284,13 @@ h2 {
   font-size: clamp(1.33rem, 2vw, 1.45rem);
   line-height: 1.52;
   font-weight: 400;
+}
+
+.pair-callout {
+  color: var(--primary-dark);
+  font-size: clamp(1.08rem, 1.8vw, 1.28rem);
+  font-weight: 800;
+  line-height: 1.1;
 }
 
 .rule-list {
@@ -337,36 +344,67 @@ h2 {
 .hero-card {
   position: absolute;
   display: grid;
-  place-items: center;
-  width: clamp(134px, 19vw, 220px);
+  grid-template-rows: auto auto;
+  align-content: center;
+  justify-items: center;
+  gap: var(--space-md);
+  width: clamp(122px, 16vw, 186px);
   aspect-ratio: 0.72;
+  padding: clamp(12px, 1.7vw, 18px);
   border-radius: 34px 6px 34px 6px;
-  color: white;
-  font-family: 'Titan One', Inter, sans-serif;
-  font-size: clamp(2.2rem, 5vw, 4.2rem);
+  background: var(--card-front);
+  color: var(--ink);
   box-shadow: var(--card-shadow);
 }
 
-.hero-card--one {
-  top: 2%;
-  left: 10%;
-  background: var(--primary);
-  transform: rotate(-8deg);
+.hero-card .card-illustration {
+  grid-row: 1;
+  align-self: center;
+  width: min(60%, 84px);
 }
 
-.hero-card--two {
-  right: 2%;
-  top: 24%;
-  background: var(--blue);
-  color: var(--primary-dark);
+.hero-card-label {
+  grid-row: 2;
+  color: var(--ink);
+  font-size: clamp(0.66rem, 1vw, 0.8rem);
+  font-weight: 800;
+  line-height: 1.05;
+  text-align: center;
+}
+
+.hero-card--1 {
+  top: 4%;
+  left: 4%;
+  z-index: 1;
+  transform: rotate(-17deg);
+}
+
+.hero-card--2 {
+  top: 1%;
+  left: 36%;
+  z-index: 1;
+  transform: rotate(0deg);
+}
+
+.hero-card--3 {
+  top: 5%;
+  right: 1%;
+  z-index: 1;
+  transform: rotate(17deg);
+}
+
+.hero-card--4 {
+  left: 18%;
+  bottom: -3%;
+  z-index: 2;
+  transform: rotate(-9deg);
+}
+
+.hero-card--5 {
+  right: 15%;
+  bottom: -1%;
+  z-index: 3;
   transform: rotate(9deg);
-}
-
-.hero-card--three {
-  left: 26%;
-  bottom: 1%;
-  background: var(--orange);
-  transform: rotate(4deg);
 }
 
 .game-screen {
@@ -507,8 +545,11 @@ h2 {
 }
 
 .card-front {
+  grid-template-rows: .25fr 3fr 1fr;
+  align-items: center;
+  justify-items: center;
   transform: rotateY(180deg);
-  gap: clamp(6px, 1.3vw, 12px);
+  gap: clamp(4px, 0.9vw, 16px);
   background: var(--card-front);
   color: var(--ink);
   border: 2px solid transparent;
@@ -519,28 +560,27 @@ h2 {
 }
 
 .card-label {
-  position: absolute;
-  right: clamp(10px, 2vw, 20px);
-  bottom: clamp(14px, 2vw, 22px);
-  left: clamp(10px, 2vw, 20px);
-  width: auto;
+  position: relative;
+  z-index: 1;
+  grid-row: 3;
+  align-self: start;
+  width: 100%;
   overflow-wrap: anywhere;
   color: var(--ink);
   font-weight: 800;
-  font-size: clamp(0.86rem, 2.85vw, 1.15rem);
-  line-height: 1.14;
+  font-size: clamp(0.76rem, 1.65vw, 1rem);
+  line-height: 1.05;
   text-align: center;
 }
 
 .card-illustration {
-  position: absolute;
-  top: 38%;
-  left: 50%;
+  position: relative;
+  grid-row: 2;
+  align-self: center;
   display: grid;
   place-items: center;
-  width: min(84%, 116px);
+  width: min(66%, 104px);
   aspect-ratio: 1;
-  transform: translate(-50%, -50%);
 }
 
 .card-illustration::before {
@@ -548,8 +588,10 @@ h2 {
   position: absolute;
   inset: 4%;
   z-index: 0;
+  box-sizing: border-box;
   border-radius: 50%;
-  background: color-mix(in oklch, var(--concept-color, var(--primary)), white 84%);
+  border: 3px solid var(--concept-color, var(--primary));
+  background: color-mix(in oklch, var(--concept-color, var(--primary)), white var(--icon-circle-mix, 68%));
 }
 
 .card-illustration svg {
@@ -700,8 +742,44 @@ h2 {
   }
 
   .start-visual {
+    width: min(100%, 380px);
     min-height: 260px;
+    margin: 0 auto;
     order: -1;
+  }
+
+  .start-visual .hero-card {
+    width: clamp(106px, 32vw, 132px);
+  }
+
+  .start-visual .hero-card--1 {
+    top: 4%;
+    left: 4%;
+    transform: rotate(-17deg);
+  }
+
+  .start-visual .hero-card--2 {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) rotate(0deg);
+  }
+
+  .start-visual .hero-card--3 {
+    top: 5%;
+    right: 4%;
+    transform: rotate(17deg);
+  }
+
+  .start-visual .hero-card--4 {
+    left: 22%;
+    bottom: 0;
+    transform: rotate(-9deg);
+  }
+
+  .start-visual .hero-card--5 {
+    right: 18%;
+    bottom: 2%;
+    transform: rotate(9deg);
   }
 
   .score-strip,
@@ -728,7 +806,38 @@ h2 {
   }
 
   .card-face {
-    padding: var(--space-md);
+    padding: var(--space-sm);
+  }
+
+  .card-front {
+    gap: 4px;
+  }
+
+  .card-illustration {
+    width: min(62%, 82px);
+  }
+
+  .card-label {
+    font-size: clamp(0.5rem, 3vw, 0.6rem);
+    line-height: 1.02;
+  }
+
+  .start-visual {
+    width: min(100%, 330px);
+    min-height: 238px;
+  }
+
+  .start-visual .hero-card {
+    width: clamp(92px, 29vw, 112px);
+    gap: var(--space-sm);
+  }
+
+  .start-visual .hero-card .card-illustration {
+    width: min(58%, 64px);
+  }
+
+  .start-visual .hero-card-label {
+    font-size: 0.58rem;
   }
 
   .result-actions,
