@@ -5,9 +5,17 @@ const HERO_CARDS = ['higiene-manos', 'contaminacion-cruzada', 'desinfeccion', 'c
   .map((id) => CARD_PAIRS.find((pair) => pair.id === id))
   .filter(Boolean)
 
+const PRELOAD_ICON_SOURCES = [...new Set(CARD_PAIRS.map((pair) => pair.card.src).filter(Boolean))]
+  .map((src) => (src.startsWith('/concept-icons/') && !src.includes('?') ? `${src}?v=3` : src))
+
 export default function StartScreen({ config, onStart }) {
   return (
     <section className="start-screen" aria-labelledby="game-title">
+      <div className="preload-assets" aria-hidden="true">
+        {PRELOAD_ICON_SOURCES.map((src) => (
+          <img key={src} src={src} alt="" loading="eager" decoding="async" fetchPriority="high" />
+        ))}
+      </div>
       <div className="start-copy">
         <p className="eyebrow">Calidad e inocuidad</p>
         <h1 id="game-title">{config.gameTitle}</h1>

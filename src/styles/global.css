@@ -39,7 +39,7 @@
 body {
   margin: 0;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
 }
 
@@ -54,7 +54,7 @@ button {
 }
 
 .app {
-  min-height: 100vh;
+  min-height: 100dvh;
   background:
     radial-gradient(circle at 16% 12%, color-mix(in oklch, var(--blue), transparent 72%), transparent 32rem),
     linear-gradient(135deg, color-mix(in oklch, var(--soft), white 42%) 0%, var(--surface) 48%, color-mix(in oklch, var(--blue), white 76%) 100%);
@@ -98,33 +98,33 @@ button {
   min-height: clamp(72px, 18dvh, 180px);
 }
 
-/* ── Landscape mobile: pantalla corta → layout scrollable normal ── */
+/* ── Landscape mobile: pantalla corta, keep dynamic viewport locked ── */
 @media (max-height: 500px) {
   .app--game {
-    height: auto;
-    overflow: visible;
+    height: 100dvh;
+    overflow: hidden;
   }
 
   .app--game .app-shell {
-    flex: unset;
-    min-height: unset;
-    display: block;
+    flex: 1;
+    min-height: 0;
+    display: flex;
   }
 
   .app--game .game-screen {
-    flex: unset;
-    min-height: unset;
+    flex: 1;
+    min-height: 0;
     grid-template-rows: auto auto auto;
   }
 
   .app--game .cards-grid {
-    min-height: unset;
-    align-content: start;
+    min-height: 0;
+    align-content: stretch;
   }
 
   .app--game .memory-card {
-    aspect-ratio: 3 / 4;
-    min-height: unset;
+    aspect-ratio: unset;
+    min-height: clamp(56px, 18dvh, 120px);
   }
 }
 
@@ -234,11 +234,26 @@ button {
 }
 
 .start-screen {
+  position: relative;
   min-height: calc(100dvh - 90px);
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
   align-items: center;
   gap: clamp(18px, 5vw, 64px);
+}
+
+.preload-assets {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.preload-assets img {
+  width: 1px;
+  height: 1px;
 }
 
 .start-copy,
@@ -652,7 +667,7 @@ h2 {
 
 .result-screen {
   position: relative;
-  min-height: calc(100vh - 120px);
+  min-height: calc(100dvh - 120px);
   align-content: center;
 }
 
